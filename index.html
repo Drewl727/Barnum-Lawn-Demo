@@ -85,22 +85,14 @@
     .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* ─── NAV ────────────────────────────────────────────── */
-    /* Dedicated element that covers Dynamic Island / notch area */
-    .safe-top {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: env(safe-area-inset-top, 44px);
-      background: #060d04;
-      z-index: 9002;
-    }
-
     nav {
       position: fixed;
-      top: env(safe-area-inset-top, 44px);
+      top: 0;
       left: 0; right: 0;
       z-index: 9001;
       background: #060d04;
-      padding: 1rem 3rem;
+      /* absorb iOS safe area (Dynamic Island / notch) into top padding */
+      padding: calc(env(safe-area-inset-top) + 1rem) 3rem 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -165,8 +157,8 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      /* top padding = safe area + nav height (64px) + breathing room */
-      padding: calc(env(safe-area-inset-top, 44px) + 5rem) 3rem 4rem;
+      /* top padding = nav height (safe area + ~66px content) + breathing room */
+      padding: calc(env(safe-area-inset-top) + 5.5rem) 3rem 4rem;
       position: relative;
       overflow: hidden;
     }
@@ -980,7 +972,7 @@
 
       /* Nav */
       nav {
-        padding: 0.9rem 1.25rem;
+        padding: calc(env(safe-area-inset-top) + 0.9rem) 1.25rem 0.9rem;
       }
 
       .nav-hamburger { display: flex; }
@@ -988,8 +980,8 @@
       .nav-links {
         display: none;
         position: fixed;
-        /* start below safe-top div + nav bar */
-        top: calc(env(safe-area-inset-top, 44px) + 52px);
+        /* start below nav bar (safe area absorbed into nav padding) */
+        top: calc(env(safe-area-inset-top) + 3.8rem);
         left: 0; right: 0;
         flex-direction: column;
         background: #060d04;
@@ -1188,7 +1180,6 @@
 <body>
 
   <!-- Safe area cover for Dynamic Island / notch -->
-  <div class="safe-top"></div>
 
   <!-- NAV -->
   <nav id="navbar">
