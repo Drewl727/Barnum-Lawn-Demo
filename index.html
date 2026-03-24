@@ -947,6 +947,8 @@
       border: none;
       cursor: pointer;
       padding: 0.5rem;
+      position: relative;
+      z-index: 101;
     }
 
     .nav-hamburger span {
@@ -1441,19 +1443,31 @@
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('navMenu');
 
-    hamburger.addEventListener('click', () => {
+    function closeMenu() {
+      navMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
       const open = navMenu.classList.toggle('open');
       hamburger.classList.toggle('open', open);
       hamburger.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
     });
 
-    // Close menu on link click
+    // Close on link click
     navMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-      });
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close on tap outside
+    document.addEventListener('click', (e) => {
+      if (navMenu.classList.contains('open') && !navbar.contains(e.target)) {
+        closeMenu();
+      }
     });
 
     // Scroll reveal
