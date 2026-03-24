@@ -88,21 +88,30 @@
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: calc(1.25rem + env(safe-area-inset-top)) 3rem 1.25rem;
+      z-index: 9000;
+      /* solid fill — no alpha, no transparency ever */
+      background: #060d04;
+      /* push nav content below the Dynamic Island / notch */
+      padding: calc(env(safe-area-inset-top, 44px) + 1rem) 3rem 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background 0.4s ease, border-bottom 0.4s ease;
-      background: rgba(6,13,4,0.98);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(109,191,62,0.12);
+      /* no transition — always opaque immediately */
+    }
+
+    /* safe-area cap: covers the gap between screen top and nav content */
+    nav::before {
+      content: '';
+      position: absolute;
+      top: calc(-1 * env(safe-area-inset-top, 44px));
+      left: 0; right: 0;
+      height: env(safe-area-inset-top, 44px);
+      background: #060d04;
     }
 
     nav.scrolled {
-      background: rgba(6, 13, 4, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(109, 191, 62, 0.2);
+      border-bottom-color: rgba(109, 191, 62, 0.2);
     }
 
     .nav-logo {
@@ -952,7 +961,7 @@
       cursor: pointer;
       padding: 0.5rem;
       position: relative;
-      z-index: 101;
+      z-index: 9001;
     }
 
     .nav-hamburger span {
@@ -984,14 +993,12 @@
         position: fixed;
         top: 0; left: 0; right: 0;
         flex-direction: column;
-        background: rgba(6,13,4,0.99);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        background: #060d04;
         border-bottom: 1px solid rgba(109,191,62,0.15);
-        padding: calc(4.5rem + env(safe-area-inset-top)) 1.25rem 1.5rem;
+        padding: calc(env(safe-area-inset-top, 44px) + 4rem) 1.25rem 1.5rem;
         gap: 0;
         align-items: stretch;
-        z-index: 99;
+        z-index: 8999;
       }
 
       .nav-links.open { display: flex; }
