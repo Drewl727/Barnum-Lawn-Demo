@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Barnum Lawn & Landscape | West Hartford, CT</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,11 +89,14 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 1.25rem 3rem;
+      padding: calc(1.25rem + env(safe-area-inset-top)) 3rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       transition: background 0.4s ease, border-bottom 0.4s ease;
+      background: rgba(6,13,4,0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     nav.scrolled {
@@ -148,6 +151,7 @@
     /* ─── HERO ───────────────────────────────────────────── */
     .hero {
       min-height: 100vh;
+      min-height: 100svh;
       background:
         radial-gradient(ellipse 80% 60% at 60% 40%, rgba(30, 64, 21, 0.5) 0%, transparent 70%),
         radial-gradient(ellipse 40% 40% at 10% 80%, rgba(20, 46, 14, 0.6) 0%, transparent 60%),
@@ -155,7 +159,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 0 3rem 4rem;
+      padding: calc(5rem + env(safe-area-inset-top)) 3rem 4rem;
       position: relative;
       overflow: hidden;
     }
@@ -967,11 +971,9 @@
     /* ─── RESPONSIVE ──────────────────────────────────────── */
     @media (max-width: 768px) {
 
-      /* Nav — always solid on mobile, no see-through */
+      /* Nav */
       nav {
-        padding: 1rem 1.25rem;
-        background: rgba(6,13,4,0.98);
-        backdrop-filter: blur(12px);
+        padding: calc(0.9rem + env(safe-area-inset-top)) 1.25rem 0.9rem;
         border-bottom: 1px solid rgba(109,191,62,0.15);
       }
 
@@ -984,8 +986,9 @@
         flex-direction: column;
         background: rgba(6,13,4,0.99);
         backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-bottom: 1px solid rgba(109,191,62,0.15);
-        padding: 5rem 1.25rem 1.5rem;
+        padding: calc(4.5rem + env(safe-area-inset-top)) 1.25rem 1.5rem;
         gap: 0;
         align-items: stretch;
         z-index: 99;
@@ -1015,7 +1018,7 @@
 
       /* Hero */
       .hero {
-        padding: 6rem 1.25rem 3rem;
+        padding: calc(5rem + env(safe-area-inset-top)) 1.25rem 3rem;
         min-height: 100svh;
         justify-content: flex-end;
       }
