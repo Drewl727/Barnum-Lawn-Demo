@@ -85,29 +85,26 @@
     .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* ─── NAV ────────────────────────────────────────────── */
-    nav {
+    /* Dedicated element that covers Dynamic Island / notch area */
+    .safe-top {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 9000;
-      /* solid fill — no alpha, no transparency ever */
+      height: env(safe-area-inset-top, 44px);
       background: #060d04;
-      /* push nav content below the Dynamic Island / notch */
-      padding: calc(env(safe-area-inset-top, 44px) + 1rem) 3rem 1rem;
+      z-index: 9002;
+    }
+
+    nav {
+      position: fixed;
+      top: env(safe-area-inset-top, 44px);
+      left: 0; right: 0;
+      z-index: 9001;
+      background: #060d04;
+      padding: 1rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(109,191,62,0.12);
-      /* no transition — always opaque immediately */
-    }
-
-    /* safe-area cap: covers the gap between screen top and nav content */
-    nav::before {
-      content: '';
-      position: absolute;
-      top: calc(-1 * env(safe-area-inset-top, 44px));
-      left: 0; right: 0;
-      height: env(safe-area-inset-top, 44px);
-      background: #060d04;
+      border-bottom: 1px solid rgba(109,191,62,0.15);
     }
 
     nav.scrolled {
@@ -168,7 +165,8 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: calc(5rem + env(safe-area-inset-top)) 3rem 4rem;
+      /* top padding = safe area + nav height (64px) + breathing room */
+      padding: calc(env(safe-area-inset-top, 44px) + 5rem) 3rem 4rem;
       position: relative;
       overflow: hidden;
     }
@@ -982,8 +980,7 @@
 
       /* Nav */
       nav {
-        padding: calc(0.9rem + env(safe-area-inset-top)) 1.25rem 0.9rem;
-        border-bottom: 1px solid rgba(109,191,62,0.15);
+        padding: 0.9rem 1.25rem;
       }
 
       .nav-hamburger { display: flex; }
@@ -991,11 +988,13 @@
       .nav-links {
         display: none;
         position: fixed;
-        top: 0; left: 0; right: 0;
+        /* start below safe-top div + nav bar */
+        top: calc(env(safe-area-inset-top, 44px) + 52px);
+        left: 0; right: 0;
         flex-direction: column;
         background: #060d04;
         border-bottom: 1px solid rgba(109,191,62,0.15);
-        padding: calc(env(safe-area-inset-top, 44px) + 4rem) 1.25rem 1.5rem;
+        padding: 0.75rem 1.25rem 1.5rem;
         gap: 0;
         align-items: stretch;
         z-index: 8999;
@@ -1187,6 +1186,9 @@
   </style>
 </head>
 <body>
+
+  <!-- Safe area cover for Dynamic Island / notch -->
+  <div class="safe-top"></div>
 
   <!-- NAV -->
   <nav id="navbar">
@@ -1451,7 +1453,7 @@
     // Nav scroll behavior
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
     });
 
     // Mobile hamburger
